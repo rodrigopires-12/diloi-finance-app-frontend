@@ -42,7 +42,7 @@ const ExpensesPage: React.FC = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await api.get("/expenses");
+        const response = await api.get("/api/v1/expenses");
         setExpenses(response.data);
       } catch (error) {
         console.error("Error fetching expenses:", error);
@@ -91,7 +91,7 @@ const ExpensesPage: React.FC = () => {
       newExpense.amount !== undefined
     ) {
       try {
-        await api.post("/expenses", newExpense);
+        await api.post("/api/v1/expenses", newExpense);
         alert("Despesa salva com sucesso!");
         closeAddModal();
       } catch (error) {
@@ -105,7 +105,7 @@ const ExpensesPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/expenses/${id}/`);
+      await api.delete(`/api/v1/expenses/${id}/`);
       alert("Despesa excluída!");
       closeModal();
     } catch (error) {
@@ -157,7 +157,7 @@ const ExpensesPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900 text-gray-200">
+    <div className="flex flex-col h-screen bg-gray-900 text-gray-200  overflow-hidden">
       {/* Page Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {/* Header */}
@@ -183,13 +183,7 @@ const ExpensesPage: React.FC = () => {
                   {/* Format the date */}
                 </p>
               </div>
-              <p
-                className={`font-semibold ${
-                  expense.amount > 0 ? "text-green-400" : "text-red-400"
-                }`}
-              >
-                ${expense.amount}
-              </p>
+              <p className="font-semibold text-red-400">${expense.amount}</p>
             </div>
           ))}
         </div>
@@ -322,33 +316,40 @@ const ExpensesPage: React.FC = () => {
                 <option value="realizado">Realizado</option>
                 <option value="orcado">Orçado</option>
               </select>
-
-              <input
-                type="number"
-                placeholder="Valor"
-                className="input input-bordered w-full bg-gray-700 text-gray-200"
-                value={newExpense.amount || ""}
-                onChange={(e) =>
-                  setNewExpense({
-                    ...newExpense,
-                    amount: e.target.value ? parseFloat(e.target.value) : 0, // Ensure a valid number is set
-                  })
-                }
-              />
-              <input
-                type="number"
-                placeholder="Parcelas"
-                className="input input-bordered w-full bg-gray-700 text-gray-200"
-                value={newExpense.installments || ""}
-                onChange={(e) =>
-                  setNewExpense({
-                    ...newExpense,
-                    installments: e.target.value
-                      ? parseFloat(e.target.value)
-                      : 1,
-                  })
-                }
-              />
+              <div className="flex flex-row items-center">
+                <label className="text-md text-gray-400 w-[30%]">Valor:</label>
+                <input
+                  type="number"
+                  placeholder="Valor"
+                  className="input input-bordered w-full bg-gray-700 text-gray-200"
+                  value={newExpense.amount || ""}
+                  onChange={(e) =>
+                    setNewExpense({
+                      ...newExpense,
+                      amount: e.target.value ? parseFloat(e.target.value) : 0, // Ensure a valid number is set
+                    })
+                  }
+                />
+              </div>
+              <div className="flex flex-row items-center">
+                <label className="text-md text-gray-400 w-[30%]">
+                  Parcelas:
+                </label>
+                <input
+                  type="number"
+                  placeholder="Parcelas"
+                  className="input input-bordered w-full bg-gray-700 text-gray-200"
+                  value={newExpense.installments || ""}
+                  onChange={(e) =>
+                    setNewExpense({
+                      ...newExpense,
+                      installments: e.target.value
+                        ? parseFloat(e.target.value)
+                        : 1,
+                    })
+                  }
+                />
+              </div>
               <select
                 className="select select-bordered w-full bg-gray-700 text-gray-200"
                 value={newExpense.bank}

@@ -9,7 +9,7 @@ export const isAuthenticated = async () => {
   if (token) {
     const user: any = jwtDecode(token);
     try {
-      const response = await api.get(`/users/${user.id}`);
+      const response = await api.get(`/api/v1/users/${user.id}`);
       return response.data;
     } catch (error) {
       console.log(`Error logging in: ${error}`);

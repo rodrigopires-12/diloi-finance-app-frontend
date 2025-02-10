@@ -24,7 +24,7 @@ const Navbar = () => {
       className={`flex w-full items-center px-4 z-40 text-white ${
         isSmallScreen
           ? "h-14 bg-gray-800 border-b border-b-1 border-primary-purple"
-          : "h-16 bg-primary-purple"
+          : "h-16 min-h-16 bg-primary-purple"
       }`}
     >
       {isSmallScreen ? (

@@ -34,7 +34,7 @@ const LoginPage = () => {
       const bodyFormData = new FormData();
       bodyFormData.append("username", loginData.username);
       bodyFormData.append("password", loginData.password);
-      const response: any = await api.post("/login/", bodyFormData);
+      const response: any = await api.post("/api/v1/login/", bodyFormData);
 
       login(response.data.access_token);
       const previousPathName = sessionStorage.getItem("previousPathName");
